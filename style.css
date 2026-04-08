@@ -1,0 +1,39 @@
+body {
+    font-family: Arial;
+    background-color: #f0f8ff;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    margin: 5px;
+    color: black;
+}
+
+a:hover {
+    color: blue;
+}
+
+table {
+    margin: auto;
+    border-collapse: collapse;
+    width: 60%;
+}
+
+td, th {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+input, textarea {
+    margin: 5px;
+    padding: 8px;
+    width: 200px;
+}
+
+button {
+    padding: 8px;
+    background-color: green;
+    color: white;
+    border: none;
+}
