@@ -1,39 +1,65 @@
 body {
-    font-family: Arial;
-    background-color: #f0f8ff;
-    text-align: center;
+font-family: Arial, sans-serif;
+background-color: #eef2f5;
+margin: 0;
+text-align: center;
+}
+
+h1 {
+background-color: #2c3e50;
+color: white;
+padding: 15px;
+margin: 0;
 }
 
 a {
-    text-decoration: none;
-    margin: 5px;
-    color: black;
+text-decoration: none;
+margin: 10px;
+color: #2c3e50;
+font-weight: bold;
 }
 
 a:hover {
-    color: blue;
+color: #007BFF;
+}
+
+hr {
+width: 80%;
+margin: 15px auto;
+}
+
+section, table, form, ul {
+background-color: white;
+width: 60%;
+margin: 20px auto;
+padding: 20px;
+border-radius: 8px;
 }
 
 table {
-    margin: auto;
-    border-collapse: collapse;
-    width: 60%;
+border-collapse: collapse;
+width: 100%;
 }
 
 td, th {
-    border: 1px solid black;
-    padding: 10px;
+border: 1px solid #ccc;
+padding: 10px;
 }
 
 input, textarea {
-    margin: 5px;
-    padding: 8px;
-    width: 200px;
+width: 80%;
+padding: 10px;
+margin: 8px;
 }
 
 button {
-    padding: 8px;
-    background-color: green;
-    color: white;
-    border: none;
+padding: 10px;
+background-color: #2c3e50;
+color: white;
+border: none;
+border-radius: 5px;
+}
+
+button:hover {
+background-color: #007BFF;
 }
