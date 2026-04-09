@@ -154,7 +154,6 @@ textarea {
 
 .btn:hover {
   background-color: #2980b9;
-  transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
 }
 
@@ -287,11 +286,6 @@ tbody tr:hover {
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   text-align: center;
   transition: transform 0.3s ease;
-}
-
-.feature-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
 .feature-card h3 {
