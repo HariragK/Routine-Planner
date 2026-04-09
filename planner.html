@@ -1,28 +1,119 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Add Task</title>
 <link rel="stylesheet" href="style.css">
-<script src="script.js"></script>
 </head>
 <body>
+<nav class="navbar">
+  <h1>Daily Routine Planner</h1>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="routine.html">Routine</a></li>
+    <li><a href="planner.html" class="active">Add Task</a></li>
+    <li><a href="tips.html">Tips</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
 
-<h1>Add Task</h1>
+<main>
+  <section class="container">
+    <h2>Add New Task</h2>
+    <form onsubmit="addTask(event)" class="task-form">
+      <div class="form-group">
+        <label for="task">Task Name:</label>
+        <input type="text" id="task" placeholder="Enter task description" required>
+        <span class="error" id="taskError"></span>
+      </div>
 
-<a href="index.html">Home</a> |
-<a href="routine.html">Routine</a> |
-<a href="planner.html">Add Task</a> |
-<a href="tips.html">Tips</a> |
-<a href="contact.html">Contact</a>
-<hr>
+      <div class="form-group">
+        <label for="time">Time:</label>
+        <input type="time" id="time" required>
+        <span class="error" id="timeError"></span>
+      </div>
 
-<section>
-<form onsubmit="return addTask()">
-<input type="text" id="task" placeholder="Enter task"><br>
-<input type="time" id="time"><br>
-<button type="submit">Add</button>
-</form>
-</section>
+      <div class="form-group">
+        <label for="priority">Priority:</label>
+        <select id="priority">
+          <option value="low">Low</option>
+          <option value="medium" selected>Medium</option>
+          <option value="high">High</option>
+        </select>
+      </div>
 
+      <button type="submit" class="btn btn-primary">Add Task</button>
+      <a href="routine.html" class="btn btn-secondary">View All Tasks</a>
+    </form>
+
+    <div id="success-msg" class="success-msg" style="display:none;">
+      ✓ Task added successfully!
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2024 Daily Routine Planner | KTU GXEST203</p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+  function addTask(e) {
+    e.preventDefault();
+    
+    const taskInput = document.getElementById('task');
+    const timeInput = document.getElementById('time');
+    const priorityInput = document.getElementById('priority');
+    
+    const taskError = document.getElementById('taskError');
+    const timeError = document.getElementById('timeError');
+    
+    taskError.textContent = '';
+    timeError.textContent = '';
+    
+    let isValid = true;
+    
+    if (taskInput.value.trim() === '') {
+      taskError.textContent = 'Task name cannot be empty';
+      isValid = false;
+    }
+    
+    if (timeInput.value === '') {
+      timeError.textContent = 'Please select a time';
+      isValid = false;
+    }
+    
+    if (!isValid) return false;
+    
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    
+    const newTask = {
+      name: taskInput.value.trim(),
+      time: timeInput.value,
+      priority: priorityInput.value,
+      completed: false,
+      id: Date.now()
+    };
+    
+    tasks.push(newTask);
+    tasks.sort((a, b) => a.time.localeCompare(b.time));
+    
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    
+    const successMsg = document.getElementById('success-msg');
+    successMsg.style.display = 'block';
+    
+    taskInput.value = '';
+    timeInput.value = '';
+    priorityInput.value = 'medium';
+    
+    setTimeout(() => {
+      successMsg.style.display = 'none';
+    }, 3000);
+    
+    return false;
+  }
+</script>
 </body>
 </html>

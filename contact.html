@@ -1,29 +1,142 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Contact</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us</title>
 <link rel="stylesheet" href="style.css">
-<script src="script.js"></script>
 </head>
 <body>
+<nav class="navbar">
+  <h1>Daily Routine Planner</h1>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="routine.html">Routine</a></li>
+    <li><a href="planner.html">Add Task</a></li>
+    <li><a href="tips.html">Tips</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+</nav>
 
-<h1>Contact</h1>
+<main>
+  <section class="container">
+    <h2>Get In Touch</h2>
+    <p class="section-subtitle">Have questions or feedback? We'd love to hear from you!</p>
 
-<a href="index.html">Home</a> |
-<a href="routine.html">Routine</a> |
-<a href="planner.html">Add Task</a> |
-<a href="tips.html">Tips</a> |
-<a href="contact.html">Contact</a>
-<hr>
+    <form onsubmit="validateForm(event)" class="contact-form">
+      <div class="form-group">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" placeholder="Your full name" required>
+        <span class="error" id="nameError"></span>
+      </div>
 
-<section>
-<form onsubmit="return validateForm()">
-<input type="text" id="name" placeholder="Name"><br>
-<input type="email" id="email" placeholder="Email"><br>
-<textarea id="msg" placeholder="Message"></textarea><br>
-<button type="submit">Send</button>
-</form>
-</section>
+      <div class="form-group">
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" placeholder="your.email@example.com" required>
+        <span class="error" id="emailError"></span>
+      </div>
 
+      <div class="form-group">
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" placeholder="What is this about?" required>
+        <span class="error" id="subjectError"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="msg">Message:</label>
+        <textarea id="msg" placeholder="Your message..." rows="6" required></textarea>
+        <span class="error" id="msgError"></span>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
+
+    <div id="success-msg" class="success-msg" style="display:none;">
+      ✓ Message sent successfully! We'll get back to you soon.
+    </div>
+
+    <section class="contact-info">
+      <h3>Other Ways to Reach Us</h3>
+      <p><strong>Email:</strong> support@dailyroutineplanner.com</p>
+      <p><strong>Department:</strong> KTU Foundations of Computing (GXEST203)</p>
+    </section>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2024 Daily Routine Planner | KTU GXEST203</p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+  function validateForm(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('name');
+    const email = document.getElementById('email');
+    const subject = document.getElementById('subject');
+    const msg = document.getElementById('msg');
+    
+    const nameError = document.getElementById('nameError');
+    const emailError = document.getElementById('emailError');
+    const subjectError = document.getElementById('subjectError');
+    const msgError = document.getElementById('msgError');
+    
+    nameError.textContent = '';
+    emailError.textContent = '';
+    subjectError.textContent = '';
+    msgError.textContent = '';
+    
+    let isValid = true;
+    
+    if (name.value.trim().length < 2) {
+      nameError.textContent = 'Name must be at least 2 characters';
+      isValid = false;
+    }
+    
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email.value)) {
+      emailError.textContent = 'Please enter a valid email address';
+      isValid = false;
+    }
+    
+    if (subject.value.trim().length < 3) {
+      subjectError.textContent = 'Subject must be at least 3 characters';
+      isValid = false;
+    }
+    
+    if (msg.value.trim().length < 10) {
+      msgError.textContent = 'Message must be at least 10 characters';
+      isValid = false;
+    }
+    
+    if (!isValid) return false;
+    
+    // Save message to localStorage
+    const messages = JSON.parse(localStorage.getItem('contactMessages')) || [];
+    messages.push({
+      name: name.value,
+      email: email.value,
+      subject: subject.value,
+      message: msg.value,
+      timestamp: new Date().toLocaleString()
+    });
+    localStorage.setItem('contactMessages', JSON.stringify(messages));
+    
+    const successMsg = document.getElementById('success-msg');
+    successMsg.style.display = 'block';
+    
+    name.value = '';
+    email.value = '';
+    subject.value = '';
+    msg.value = '';
+    
+    setTimeout(() => {
+      successMsg.style.display = 'none';
+    }, 4000);
+    
+    return false;
+  }
+</script>
 </body>
 </html>

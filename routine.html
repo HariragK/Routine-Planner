@@ -1,28 +1,111 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Routine</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<nav class="navbar">
+  <h1>Daily Routine Planner</h1>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="routine.html" class="active">Routine</a></li>
+    <li><a href="planner.html">Add Task</a></li>
+    <li><a href="tips.html">Tips</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
 
-<h1>My Routine</h1>
+<main>
+  <section class="container">
+    <h2>My Daily Routine</h2>
+    <div class="routine-actions">
+      <a href="planner.html" class="btn btn-primary">+ Add New Task</a>
+      <button onclick="clearRoutine()" class="btn btn-danger">Clear All</button>
+    </div>
 
-<a href="index.html">Home</a> |
-<a href="routine.html">Routine</a> |
-<a href="planner.html">Add Task</a> |
-<a href="tips.html">Tips</a> |
-<a href="contact.html">Contact</a>
-<hr>
+    <div id="routine-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Activity</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="taskList">
+          <tr>
+            <td>6:00 AM</td>
+            <td>Wake up</td>
+            <td><span class="status pending">Pending</span></td>
+            <td><button onclick="deleteTask(0)" class="btn-small">Delete</button></td>
+          </tr>
+          <tr>
+            <td>9:00 AM</td>
+            <td>Study</td>
+            <td><span class="status pending">Pending</span></td>
+            <td><button onclick="deleteTask(1)" class="btn-small">Delete</button></td>
+          </tr>
+          <tr>
+            <td>2:00 PM</td>
+            <td>Lunch</td>
+            <td><span class="status pending">Pending</span></td>
+            <td><button onclick="deleteTask(2)" class="btn-small">Delete</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-<section>
-<table>
-<tr><th>Time</th><th>Activity</th></tr>
-<tr><td>6:00 AM</td><td>Wake up</td></tr>
-<tr><td>9:00 AM</td><td>Study</td></tr>
-<tr><td>2:00 PM</td><td>Lunch</td></tr>
-</table>
-</section>
+    <div id="empty-state" style="display:none;" class="empty-state">
+      <p>No tasks scheduled. <a href="planner.html">Add your first task</a></p>
+    </div>
+  </section>
+</main>
 
+<footer>
+  <p>&copy; 2024 Daily Routine Planner | KTU GXEST203</p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+  function loadRoutine() {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    const taskList = document.getElementById('taskList');
+    
+    if (tasks.length === 0) {
+      document.getElementById('routine-table').style.display = 'none';
+      document.getElementById('empty-state').style.display = 'block';
+      return;
+    }
+    
+    taskList.innerHTML = tasks.map((task, index) => `
+      <tr>
+        <td>${task.time}</td>
+        <td>${task.name}</td>
+        <td><span class="status ${task.completed ? 'completed' : 'pending'}">${task.completed ? 'Done' : 'Pending'}</span></td>
+        <td><button onclick="deleteTask(${index})" class="btn-small">Delete</button></td>
+      </tr>
+    `).join('');
+  }
+
+  function deleteTask(index) {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.splice(index, 1);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    loadRoutine();
+  }
+
+  function clearRoutine() {
+    if (confirm('Are you sure? This will delete all tasks.')) {
+      localStorage.removeItem('tasks');
+      loadRoutine();
+    }
+  }
+
+  loadRoutine();
+</script>
 </body>
 </html>
